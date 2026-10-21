@@ -1,0 +1,12 @@
+name: syn
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - scipy
+  - librosa              # STFT, хрома, CQT
+  - python-sounddevice   # потоковый захват звука (PortAudio)
+  - pygame               # окно визуализации
+  - matplotlib-base      # графики (без Qt: окна рисует pygame)
+  - ipython

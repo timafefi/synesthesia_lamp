@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Данные и результаты: большие файлы не храним в git
+data/
+recordings/
+*.wav
+*.flac
+*.mp3
+logs/
+
+# Редакторы и ОС
+.vscode/
+.idea/
+.DS_Store
