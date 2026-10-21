@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# Данные и результаты: большие файлы не храним в git
+# Data and results: large files stay out of git
 data/
 recordings/
 *.wav
@@ -11,7 +11,7 @@ recordings/
 *.mp3
 logs/
 
-# Редакторы и ОС
+# Editors and OS
 .vscode/
 .idea/
 .DS_Store

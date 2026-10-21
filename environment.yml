@@ -5,13 +5,13 @@ dependencies:
   - python=3.12
   - numpy
   - scipy
-  - librosa              # STFT, хрома, CQT
-  - python-sounddevice   # потоковый захват звука (PortAudio)
-  - pygame               # окно визуализации
-  - matplotlib-base      # графики (без Qt: окна рисует pygame)
+  - librosa              # STFT, chroma, CQT
+  - python-sounddevice   # streaming audio capture (PortAudio)
+  - pygame               # visualization window
+  - matplotlib-base      # plots (no Qt: pygame draws the windows)
   - ipython
-# alsa-lib из conda не видит системный плагин PipeWire, и PortAudio
-# не находит ни одного устройства. Указываем системные пути (Fedora: lib64).
+# conda's alsa-lib does not see the system PipeWire plugin, so PortAudio
+# finds no devices. Point it at the system paths (Fedora: lib64).
 variables:
   ALSA_CONFIG_DIR: /usr/share/alsa
   ALSA_PLUGIN_DIR: /usr/lib64/alsa-lib

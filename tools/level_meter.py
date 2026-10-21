@@ -1,6 +1,6 @@
-"""Индикатор уровня входа: проверка, что микрофон даёт сигнал.
+"""Input level meter: check that the microphone delivers a signal.
 
-Запуск:  conda run -n syn --no-capture-output python tools/level_meter.py [секунды]
+Usage:  conda run -n syn --no-capture-output python tools/level_meter.py [seconds]
 """
 import sys
 import time
@@ -9,21 +9,21 @@ import numpy as np
 import sounddevice as sd
 
 SR = 48_000
-BLOCK = 12_000  # 250 мс на блок: 4 строки в секунду
+BLOCK = 12_000  # 250 ms per block: 4 lines per second
 
 
 def dbfs(x: np.ndarray) -> float:
-    # float32 из sounddevice уже нормирован на [-1, 1], так что полная шкала = 1.0
+    # float32 from sounddevice is already normalized to [-1, 1], so full scale = 1.0
     return 20 * np.log10(max(float(x), 1e-10))
 
 
 def callback(indata, frames, time_info, status):
-    # Вызывается из потока звуковой карты на каждый блок.
-    # Здесь нельзя делать ничего медленного: если не успеть до следующего
-    # блока, будет переполнение буфера (status.input_overflow).
+    # Called from the audio thread for every block.
+    # Nothing slow may happen here: if we miss the next block,
+    # the buffer overflows (status.input_overflow).
     if status:
         print(status, file=sys.stderr)
-    rms = np.sqrt(np.mean(indata**2, axis=0))  # по каналам
+    rms = np.sqrt(np.mean(indata**2, axis=0))  # per channel
     peak = np.max(np.abs(indata), axis=0)
     bars = "  ".join(
         f"ch{i}: {dbfs(r):6.1f} dBFS |{'#' * int(max(0, dbfs(r) + 90) / 2):<45}|"
@@ -36,7 +36,7 @@ def callback(indata, frames, time_info, status):
 if __name__ == "__main__":
     seconds = float(sys.argv[1]) if len(sys.argv) > 1 else 10
     dev = sd.query_devices(kind="input")
-    print(f"Устройство: {dev['name']}, {SR} Гц, блок {BLOCK} сэмплов ({BLOCK / SR * 1000:.0f} мс)")
+    print(f"Device: {dev['name']}, {SR} Hz, block {BLOCK} samples ({BLOCK / SR * 1000:.0f} ms)")
     with sd.InputStream(samplerate=SR, blocksize=BLOCK, channels=2,
                         dtype="float32", callback=callback):
         time.sleep(seconds)
