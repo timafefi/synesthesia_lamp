@@ -10,3 +10,8 @@ dependencies:
   - pygame               # окно визуализации
   - matplotlib-base      # графики (без Qt: окна рисует pygame)
   - ipython
+# alsa-lib из conda не видит системный плагин PipeWire, и PortAudio
+# не находит ни одного устройства. Указываем системные пути (Fedora: lib64).
+variables:
+  ALSA_CONFIG_DIR: /usr/share/alsa
+  ALSA_PLUGIN_DIR: /usr/lib64/alsa-lib
